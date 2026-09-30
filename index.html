@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#cbe7f9">
+  <title>Tidepool Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="cloud-gate" id="cloud-gate" hidden aria-labelledby="auth-title">
+    <div class="cloud-card">
+      <a class="brand" href="#" aria-label="Tidepool Notes home">
+        <span class="brand-mark" aria-hidden="true"><i></i><b></b></span>
+        <span>Tidepool<span class="brand-light">Notes</span></span>
+      </a>
+      <div class="cloud-card-copy">
+        <span class="cloud-eyebrow">YOUR PRIVATE NOTEBOOK</span>
+        <h1 id="auth-title">Your thoughts, wherever you are.</h1>
+        <p>Sign in to connect with friends, share moments, and keep your notes in reach.</p>
+      </div>
+      <form id="sign-in-form" class="sign-in-form">
+        <label for="sign-in-email">Email address</label>
+        <input id="sign-in-email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <button id="sign-in-button" type="submit">Email me a sign-in link</button>
+      </form>
+      <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+      <p class="cloud-privacy">Your notes stay private. You choose who sees each photo.</p>
+    </div>
+  </section>
+
+  <div class="app-shell" id="app-shell">
+    <aside class="sidebar" aria-label="Notes navigation">
+      <a class="brand" href="#" aria-label="Tidepool Notes home">
+        <span class="brand-mark" aria-hidden="true"><i></i><b></b></span>
+        <span>Tidepool<span class="brand-light">Notes</span></span>
+      </a>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
+        <button class="nav-item is-active" type="button" data-view="feed"><span aria-hidden="true">⌂</span>Feed</button>
+        <button class="nav-item" type="button" data-view="discover"><span aria-hidden="true">⌕</span>Discover</button>
+        <button class="nav-item" type="button" data-view="friends"><span aria-hidden="true">♧</span>Friends<span class="nav-count" id="friend-count" hidden></span></button>
+        <button class="nav-item" type="button" data-view="chats"><span aria-hidden="true">▤</span>Chats<span class="nav-count" id="chat-count" hidden></span></button>
+        <button class="nav-item" type="button" data-view="profile"><span aria-hidden="true">◉</span>My profile</button>
+        <button class="nav-item" type="button" data-view="notes"><span aria-hidden="true">▤</span>My notes</button>
+      </nav>
+
+      <button class="new-note-button" id="new-note" type="button"><span aria-hidden="true">+</span> New note <kbd>Ctrl N</kbd></button>
+
+      <div class="sidebar-section-heading">
+        <span>Your notebook</span>
+        <span class="note-count" id="note-count">1</span>
+      </div>
+      <label class="search-box">
+        <span aria-hidden="true">⌕</span>
+        <input id="search" type="search" placeholder="Find a note" autocomplete="off" aria-label="Find a note">
+        <kbd>/</kbd>
+      </label>
+      <div class="filter-tabs" role="group" aria-label="Filter notes">
+        <button class="filter-tab is-active" type="button" data-filter="all">All notes</button>
+        <button class="filter-tab" type="button" data-filter="pinned">Pinned</button>
+      </div>
+      <div class="note-list" id="note-list" aria-label="Your notes"></div>
+
+      <div class="sidebar-footer">
+        <span class="saved-dot" aria-hidden="true"></span>
+        <span id="storage-status">Saved on this device</span>
+        <button class="help-button" id="about-button" type="button" aria-label="About local storage" title="About local storage">?</button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div class="breadcrumb"><span id="breadcrumb-section">Feed</span><span class="breadcrumb-slash">/</span><strong id="breadcrumb-title">A quieter kind of sharing</strong></div>
+        <div class="topbar-actions">
+          <button class="sign-in-top-button" id="guest-sign-in" type="button" hidden>Sign in</button>
+          <span class="save-indicator" id="save-indicator"><span class="saved-dot"></span> All changes saved</span>
+          <button class="sign-out-button" id="sign-out" type="button" hidden>Sign out</button>
+          <button class="avatar" type="button" aria-label="Personal notebook" title="Personal notebook">M</button>
+        </div>
+      </header>
+
+      <section class="social-view feed-view" id="feed-view" data-view-panel="feed" aria-label="Photo feed">
+        <div class="social-heading">
+          <div><span class="social-eyebrow">THE COMMUNITY</span><h1>Calm yourself</h1><p>Drop your thoughts and breathe...</p></div>
+            <button class="compose-jump" id="compose-jump" type="button" title="Create a post">＋ <span>New Post</span></button>
+        </div>
+        <div class="guest-notice" id="guest-notice" hidden><span>Sign in to send friend requests, share photos, and add to the conversation.</span><button type="button" data-open-signin>Sign in</button></div>
+        <form class="post-composer" id="post-form" hidden>
+          <div class="composer-person"><span class="mini-avatar" id="composer-avatar">M</span><span><strong id="composer-name">Your profile</strong><small>Share a small moment</small></span></div>
+          <textarea id="post-caption" maxlength="280" rows="2" placeholder="What's happening?" aria-label="Post text"></textarea>
+          <div class="composer-bottom">
+            <input id="post-photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+            <button class="composer-picture" id="choose-post-photo" type="button"><span aria-hidden="true">▧</span> Add photo</button>
+            <span class="selected-photo" id="selected-photo">Add a photo (optional)</span>
+            <span class="char-count" id="char-count" aria-hidden="true">280</span>
+            <label class="visibility-picker"><span class="sr-only">Who can see this post?</span><select id="post-visibility"><option value="public">Everyone</option><option value="friends">Friends</option></select></label>
+            <button class="publish-button" id="publish-post" type="submit" disabled>Post</button>
+          </div>
+        </form>
+        <div class="feed-tabs" id="feed-tabs" role="tablist" aria-label="Feed"><button class="feed-tab is-active" type="button" role="tab" aria-selected="true" data-feed="all">For you</button><button class="feed-tab" type="button" role="tab" aria-selected="false" data-feed="friends">Friends</button></div>
+        <div class="feed-list" id="feed-list" aria-live="polite"></div>
+      </section>
+
+      <section class="social-view discovery-view" id="discover-view" data-view-panel="discover" aria-label="Discover people" hidden>
+        <div class="social-heading"><div><span class="social-eyebrow">FIND YOUR PEOPLE</span><h1>Discover</h1><p>Say hello when someone’s notes resonate.</p></div></div>
+        <label class="people-search"><span aria-hidden="true">⌕</span><input id="people-search" type="search" placeholder="Search by name or @username" autocomplete="off" aria-label="Search profiles"></label>
+        <div class="people-list" id="people-list"></div>
+      </section>
+
+      <section class="social-view friends-view" id="friends-view" data-view-panel="friends" aria-label="Friends" hidden>
+        <div class="social-heading"><div><span class="social-eyebrow">YOUR TIDELINE</span><h1>Friends</h1><p>Connection requests and the people you’ve welcomed in.</p></div></div>
+        <div class="friends-columns">
+          <section class="friends-group"><h2>Requests for you <span class="section-count" id="incoming-count">0</span></h2><div id="incoming-list" class="people-list"></div></section>
+          <section class="friends-group"><h2>Sent requests <span class="section-count" id="sent-count">0</span></h2><div id="sent-list" class="people-list"></div></section>
+          <section class="friends-group"><h2>Your friends <span class="section-count" id="accepted-count">0</span></h2><div id="accepted-list" class="people-list"></div></section>
+        </div>
+      </section>
+
+      <section class="social-view chats-view" id="chats-view" data-view-panel="chats" aria-label="Chats" hidden>
+        <div class="chat-layout">
+          <aside class="chat-threads-pane" aria-label="Conversations">
+            <div class="chat-pane-heading">
+              <span class="social-eyebrow">YOUR FRIENDS</span>
+              <h1>Chats</h1>
+              <p>Private, one-to-one conversations.</p>
+            </div>
+            <div class="chat-thread-list" id="chat-thread-list"></div>
+          </aside>
+          <section class="chat-conversation" id="chat-conversation" aria-label="Conversation">
+            <div class="chat-empty" id="chat-empty"><span aria-hidden="true">↗</span><p>Choose a friend to start a conversation.</p></div>
+            <div class="chat-active" id="chat-active" hidden>
+              <header class="chat-header">
+                <button class="chat-back" id="chat-back" type="button" aria-label="Back to conversations">‹</button>
+                <span class="person-avatar" id="chat-avatar">?</span>
+                <div class="chat-person"><strong id="chat-person-name">Friend</strong><small id="chat-person-handle">@friend</small></div>
+                <span class="chat-private-label">PRIVATE</span>
+              </header>
+              <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+              <form class="chat-form" id="chat-form">
+                <textarea id="chat-input" maxlength="4000" rows="1" placeholder="Write a message..." aria-label="Message" required></textarea>
+                <button class="chat-send" id="chat-send" type="submit" title="Send message" aria-label="Send message">↑</button>
+              </form>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="social-view profile-view" id="profile-view" data-view-panel="profile" aria-label="Your profile" hidden>
+        <div class="social-heading"><div><span class="social-eyebrow">YOUR LITTLE CORNER</span><h1>My profile</h1><p>Public profile. Choose who sees each photo.</p></div></div>
+        <div class="profile-layout">
+          <div class="profile-summary"><div class="profile-avatar" id="profile-avatar">M</div><h2 id="profile-card-name">Your name</h2><p id="profile-card-username">@username</p><p id="profile-card-bio"></p></div>
+          <form class="profile-form" id="profile-form">
+            <p class="profile-hint" id="profile-hint">Choose a username to finish setting up your profile.</p>
+            <label for="profile-display-name">Display name</label><input id="profile-display-name" maxlength="48" required placeholder="Your name">
+            <label for="profile-username">Username</label><input id="profile-username" maxlength="24" minlength="3" pattern="[a-z0-9_]{3,24}" required placeholder="your_username" autocomplete="username">
+            <small>3–24 lowercase letters, numbers, or underscores.</small>
+            <label for="profile-bio">A little about you</label><textarea id="profile-bio" maxlength="180" placeholder="A few words, if you like"></textarea>
+            <button class="publish-button" type="submit">Save profile</button>
+          </form>
+        </div>
+        <section class="my-posts-section"><h2>Your photos</h2><div class="feed-list" id="my-posts"></div></section>
+      </section>
+
+      <section class="editor-wrap app-view" id="notes-view" data-view-panel="notes" aria-label="Note editor" hidden>
+        <div class="editor-meta">
+          <div class="date-label"><span class="sun-dot" aria-hidden="true"></span><span id="note-date">TODAY</span><span class="meta-divider">/</span><span>FIELD NOTES</span></div>
+          <div class="note-actions">
+            <button class="save-button" id="save-note" type="button" title="Save note (Ctrl S)"><span aria-hidden="true">✓</span> <span id="save-label">Save</span></button>
+            <button class="icon-button pin-button" id="pin-note" type="button" title="Pin note" aria-label="Pin note"><span aria-hidden="true">☆</span></button>
+            <button class="icon-button delete-button" id="delete-note" type="button" title="Delete note" aria-label="Delete note"><span aria-hidden="true">×</span></button>
+          </div>
+        </div>
+
+        <input class="note-title" id="note-title" type="text" maxlength="120" placeholder="Untitled note" aria-label="Note title">
+
+        <div class="editor-toolbar" role="toolbar" aria-label="Text formatting">
+          <div class="format-group">
+            <button class="format-button format-select" type="button" data-command="formatBlock" data-value="p" title="Paragraph">Text <span aria-hidden="true">⌄</span></button>
+            <span class="toolbar-rule" aria-hidden="true"></span>
+            <button class="format-button strong-button" type="button" data-command="bold" title="Bold" aria-label="Bold">B</button>
+            <button class="format-button italic-button" type="button" data-command="italic" title="Italic" aria-label="Italic">I</button>
+            <button class="format-button underline-button" type="button" data-command="underline" title="Underline" aria-label="Underline">U</button>
+            <span class="toolbar-rule" aria-hidden="true"></span>
+            <button class="format-button" type="button" data-command="insertUnorderedList" title="Bulleted list" aria-label="Bulleted list">≡</button>
+            <button class="format-button" type="button" data-command="insertOrderedList" title="Numbered list" aria-label="Numbered list">1.</button>
+          </div>
+          <div class="format-group format-tools">
+            <input id="image-input" type="file" accept="image/*" hidden>
+            <button class="tool-button" id="insert-image" type="button" title="Insert picture"><span aria-hidden="true">▧</span><span>Picture</span></button>
+            <span class="toolbar-rule" aria-hidden="true"></span>
+            <input id="font-input" type="file" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2" hidden>
+            <button class="tool-button font-tool" id="import-font" type="button" title="Import a font"><span aria-hidden="true">Aa</span><span id="font-label">Add font</span></button>
+          </div>
+        </div>
+
+        <div class="editor-content" id="editor-content" contenteditable="true" role="textbox" aria-label="Note content" aria-multiline="true" spellcheck="true"></div>
+        <div class="editor-endmark" aria-hidden="true"><span></span> end of note <span></span></div>
+      </section>
+
+      <footer class="workspace-footer">
+        <span id="footer-message">A little space for the things worth keeping.</span>
+        <span id="note-footer-meta" hidden><span id="word-count">0 words</span><span class="footer-separator">·</span><span id="privacy-label">Private to this browser</span></span>
+      </footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+  <script src="social.js"></script>
+</body>
+</html>
